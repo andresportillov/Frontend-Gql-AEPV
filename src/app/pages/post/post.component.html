@@ -1,23 +1,22 @@
 <div>
     <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
+        <div class="container-fluid" *ngFor="let user of users">
             <a class="navbar-brand" href="#">
-                <img src="https://cdn.icon-icons.com/icons2/2620/PNG/512/among_us_player_red_icon_156942.png" alt="" width="30" height="24" class="d-inline-block align-text-top"> Test
+                <img src="https://cdn.icon-icons.com/icons2/2620/PNG/512/among_us_player_red_icon_156942.png" alt="" width="30" height="24" class="d-inline-block align-text-top"> {{user.firstname}} {{user.lastname}}
             </a>
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <button class="btn btn-secondary" routerLink="/login" (click)="setIsOnline(user._id)">Cerrar Sesion</button>
+                </li>
+            </ul>
         </div>
     </nav>
 </div>
-<div class="collapse" id="navbarToggleExternalContent">
-    <div class="bg-dark p-4">
-        <h5 class="text-white h4">Collapsed content</h5>
-        <span class="text-muted">Toggleable via the navbar brand.</span>
-    </div>
-</div>
 <div class="tab-pane active mt-5" id="profile-overview" role="tabpanel">
-    <div class="post-editor">
+    <div class="post-editor" *ngFor="let user of users">
         <textarea #message name="post-field" id="post-field" class="post-field" placeholder="Write Something Cool!"></textarea>
         <div class="d-flex">
-            <button class="btn btn-success px-4 py-1" (click)="createPost(message.value)">Post</button>
+            <button class="btn btn-success px-4 py-1" (click)="createPost(message.value, user._id)">Post</button>
         </div>
     </div>
     <div class="container mt-5">
@@ -33,12 +32,13 @@
                                 <li>
                                     <div class="info">
                                         <p>Posted on:</p>
-                                        <strong>{{post.posted | date:'MM/dd/yyyy'}}</strong></div>
+                                        <strong>{{post.posted | date:'MM/dd/yyyy'}} </strong></div>
                                 </li>
                                 <li>
                                     <div class="info">
-                                        <p>Comments:</p>
-                                        <strong>127</strong></div>
+                                        <p>Comments: </p>
+                                        <strong> {{post.user.firstname}} {{post.user.lastname}}</strong>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
