@@ -15,7 +15,7 @@ const GET_USER = gql`
 
 const UPDATE_USER = gql`
   mutation updateUser($_id: ID!, $isOnline: Boolean) {
-    updateUser(_id: $_id, input: {Boolean: $isOnline}) {
+    updateUser(_id: $_id, input: {isOnline: $isOnline}) {
       _id
     }
   }
