@@ -7,7 +7,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form>
+                <form action="#">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -25,8 +25,7 @@
                         <input type="checkbox">Remember Me
                     </div>
                     <div class="form-group text-center">
-                        <!-- <input type="submit" value="Login" class="btn float-right login_btn" (click)="verify(email.value, password.value)"> -->
-                        <button class="btn float-right login_btn" (click)="verify(email.value, password.value)" routerLink="/post">Login</button>
+                        <button class="btn float-right login_btn" (click)="verify(email.value, password.value) " routerLink="/post">Login</button>
                     </div>
                 </form>
             </div>
