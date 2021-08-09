@@ -1,0 +1,46 @@
+<div class="container mt-5">
+    <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">Create Account</h4>
+            <p class="text-center">Get started with your free account</p>
+            <form>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input #firstname name="" class="form-control" placeholder="Firstname" type="text" required>
+                    <input #lastname name="" class="form-control" placeholder="Lastname" type="text">
+                </div>
+                <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fab fa-pagelines"></i> </span>
+                    </div>
+                    <input #age name="" class="form-control" placeholder="Age" type="number">
+                </div>
+                <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input #email name="" class="form-control" placeholder="test@example.com" type="email">
+                </div>
+                <!-- form-group end.// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input #password class="form-control" placeholder="Create password" type="password">
+                </div>
+                <!-- form-group// -->
+                <div class="form-group text-center mt-2">
+                    <button class="btn btn-primary" (click)="createUser(firstname.value, lastname.value, email.value, password.value, age.value)"> Create Account </button>
+                </div>
+                <!-- form-group// -->
+                <p class="text-center">Have an account? <a routerLink='/login'>Log In</a> </p>
+            </form>
+        </article>
+    </div>
+    <!-- card.// -->
+
+</div>

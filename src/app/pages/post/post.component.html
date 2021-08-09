@@ -1,0 +1,65 @@
+<div>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://cdn.icon-icons.com/icons2/2620/PNG/512/among_us_player_red_icon_156942.png" alt="" width="30" height="24" class="d-inline-block align-text-top"> Test
+            </a>
+        </div>
+    </nav>
+</div>
+<div class="collapse" id="navbarToggleExternalContent">
+    <div class="bg-dark p-4">
+        <h5 class="text-white h4">Collapsed content</h5>
+        <span class="text-muted">Toggleable via the navbar brand.</span>
+    </div>
+</div>
+<div class="tab-pane active mt-5" id="profile-overview" role="tabpanel">
+    <div class="post-editor">
+        <textarea #message name="post-field" id="post-field" class="post-field" placeholder="Write Something Cool!"></textarea>
+        <div class="d-flex">
+            <button class="btn btn-success px-4 py-1" (click)="createPost(message.value)">Post</button>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="col-md-10 col-lg-10">
+            <article class="post vt-post" *ngFor="let post of posts">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4">
+                        <div class="post-type post-img">
+                            <a href="#"><img src="https://openuniverse.asi.it/images_ou/open_universe.png" class="img-responsive" alt="image post"></a>
+                        </div>
+                        <div class="author-info author-info-2">
+                            <ul class="list-inline">
+                                <li>
+                                    <div class="info">
+                                        <p>Posted on:</p>
+                                        <strong>{{post.posted | date:'MM/dd/yyyy'}}</strong></div>
+                                </li>
+                                <li>
+                                    <div class="info">
+                                        <p>Comments:</p>
+                                        <strong>127</strong></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
+                        <div *ngIf="isEdited === false" class="caption">
+                            <p>{{post.message}}</p>
+                        </div>
+                        <div *ngIf="isEdited === true" class="post-editor mt-5">
+                            <textarea #message name="post-field" id="post-field" class="post-field" placeholder="Write Something Cool!">
+                                {{post.message}}
+                            </textarea>
+                            <div class="d-flex">
+                                <button class="btn btn-success"><i class="fas fa-check" (click)="updatePost(post._id, message.value)"></i></button>
+                                <button class="btn btn-secondary" (click)="edit({edit:false})"><i class="fas fa-ban"></i></button>
+                            </div>
+                        </div>
+                        <div class="d-flex" *ngIf=" show===true ">
+                            <button class="btn btn-primary"><i class="fas fa-pencil-alt" (click)="edit({edit:true})"></i></button>
+                            <button class="btn btn-danger"><i class="far fa-trash-alt" (click)="deletePost(post._id)"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </article>
