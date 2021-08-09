@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Router } from '@angular/router'
 
 const GET_USER = gql`
-      query Users($email: String!, $password: String!){
+      query Users($email: String, $password: String){
         Users(data: {email: $email, password: $password}) {
           _id
           email
@@ -27,7 +27,10 @@ const UPDATE_USER = gql`
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  success = false
+  loading = false
   users!:any[];
+  user: any;
 
   constructor(
     private apollo: Apollo,
@@ -35,6 +38,7 @@ export class LoginComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.loading
   }
 
   setIsOnline(_id: String) {
@@ -48,12 +52,14 @@ export class LoginComponent implements OnInit {
         isOnline: isOnline
       }
     }).subscribe(()=> {
-      return this.route.navigate
+      console.log('You are Online');
+
     })
   
   }
 
   verify(email: String, password: String) {
+    this.loading = true
     this.apollo.watchQuery({
       query: GET_USER,
       variables: {
@@ -62,10 +68,14 @@ export class LoginComponent implements OnInit {
       }
     }).valueChanges.subscribe((result: any)=> {
       this.users = result.data && result.data.Users
-      for (let i = 0; i < this.users.length; i++) {
-        const user = this.users[i]; 
+      console.log(this.users[0]);
+      
+      if (this.users[0].email === email && this.users[0].password === password) {
+        this.loading = false;
+        this.success = true;
+        this.setIsOnline(this.users[0]._id)
       }
-    
+      
     })
 
   }
