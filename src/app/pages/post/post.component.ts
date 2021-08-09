@@ -3,7 +3,7 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 const CREATE_POST = gql`
-  mutation createPost($message: String!, $userId: String) {
+  mutation createPost($message: String!, $userId: String!) {
     createPost(input: {message: $message, userId: $userId}) {
       message
     }
@@ -16,6 +16,11 @@ const GET_POST = gql`
       _id
       message
       posted
+      userId
+      user {
+        firstname
+        lastname
+      }
     }
   }
 `;
@@ -36,6 +41,25 @@ const DELETE_POST = gql`
   }
 `;
 
+const GET_USER = gql`
+      query Users($isOnline: Boolean){
+        Users(data: {isOnline: $isOnline}) {
+          _id
+          email
+          firstname
+          lastname
+        }
+      }
+`;
+
+const UPDATE_USER = gql`
+  mutation updateUser($_id: ID!, $isOnline: Boolean) {
+    updateUser(_id: $_id, input: {isOnline: $isOnline}) {
+      _id
+    }
+  }
+`;
+
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -43,6 +67,7 @@ const DELETE_POST = gql`
 })
 export class PostComponent implements OnInit {
   posts!: any[];
+  users!: any[];
   isEdited: Boolean = false; 
   show: Boolean = true; 
 
@@ -55,16 +80,26 @@ export class PostComponent implements OnInit {
       query: GET_POST
     }).valueChanges.subscribe((result: any) => {
       this.posts = result.data && result.data.Posts;
-      console.log('data',result.data.Posts);
+      console.log(this.posts);
+      
+    })
+    this.apollo.watchQuery({
+      query: GET_USER,
+      variables: {
+        isOnline: true
+      }
+    }).valueChanges.subscribe((result: any)=> {
+      this.users = result.data && result.data.Users
     })
   }
 
-  createPost(message: String) {
+  createPost(message: String, userId: String) {
     this.apollo.mutate({
       mutation: CREATE_POST,
       refetchQueries: [{query: GET_POST}],
       variables: {
-        message: message
+        message: message,
+        userId: userId
       }
     }).subscribe(() => {
       console.log('Created Succefully');
@@ -109,6 +144,23 @@ export class PostComponent implements OnInit {
 
   visible(visible: any) {
     this.show = visible.visible
+  }
+
+  setIsOnline(_id: String) {
+    console.log(_id);
+    
+    const isOnline = false;
+    this.apollo.mutate({
+      mutation: UPDATE_USER,
+      variables: {
+        _id: _id,
+        isOnline: isOnline
+      }
+    }).subscribe(()=> {
+      console.log('You are  Off Online');
+
+    })
+  
   }
 
 }
